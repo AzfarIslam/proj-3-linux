@@ -19,7 +19,7 @@ help:  ## Print this message.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 .PHONY: install
-install: install-bashlibs install-zsh $(bindir) $(project) ## Install cookie.
+install: install-bashlibs install-zsh install-bash $(bindir) $(project) ## Install cookie.
 	cp $(project) $(bindir)/$(project)
 	chmod +x $(bindir)/$(project)
 
