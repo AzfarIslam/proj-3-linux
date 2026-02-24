@@ -43,9 +43,10 @@ install-zsh: ## Install ZSH completion function.
 $(bindir):
 	@mkdir -p $(bindir)
 
-.PHONY: uninstall
 uninstall: ## Uninstall cookie.
 	@rm -f $(bindir)/$(project)
+	@rm -f $(DESTDIR)/$(PREFIX)/share/zsh/site-functions/_cookie
+	@rm -f $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/cookie
 
 .PHONY: uninstall-all
 uninstall-all: uninstall ## Uninstall cookie and all of its dependencies.
