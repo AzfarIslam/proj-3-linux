@@ -205,6 +205,13 @@ See this [Stack Overflow answer](https://stackoverflow.com/questions/12152077/ho
 
 #### ZSH Completion
 
+#### Bash Completion
+Bash completion is installed automatically by `make install` to:
+`/usr/share/bash-completion/completions/cookie`
+
+Restart your shell, or run:
+`source /usr/share/bash-completion/completions/cookie`
+
 The appropriate completion function should be installed automatically. If necessary, however, you can enable ZSH command-line completion manually by copying the [\_cookie][zsh-completion] file to a directory listed by your system's `$fpath` variable (normally the `/usr/share/zsh/site-functions` directory works).
 
 [blog]: https://bryanbugyi.com/blog/tips-and-tricks-for-using-cookie/

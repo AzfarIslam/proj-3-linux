@@ -19,9 +19,14 @@ help:  ## Print this message.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 .PHONY: install
-install: install-bashlibs install-zsh $(bindir) $(project) ## Install cookie.
+install: install-bashlibs install-zsh install-bash $(bindir) $(project) ## Install cookie.
 	cp $(project) $(bindir)/$(project)
 	chmod +x $(bindir)/$(project)
+
+.PHONY: install-bash
+install-bash: ## Install Bash completion function.
+	@mkdir -p $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/
+	cp ./scripts/bash/cookie $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/cookie
 
 .PHONY: install-bashlibs
 install-bashlibs:  ## Install the bashlibs library.
@@ -38,9 +43,10 @@ install-zsh: ## Install ZSH completion function.
 $(bindir):
 	@mkdir -p $(bindir)
 
-.PHONY: uninstall
 uninstall: ## Uninstall cookie.
 	@rm -f $(bindir)/$(project)
+	@rm -f $(DESTDIR)/$(PREFIX)/share/zsh/site-functions/_cookie
+	@rm -f $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/cookie
 
 .PHONY: uninstall-all
 uninstall-all: uninstall ## Uninstall cookie and all of its dependencies.
