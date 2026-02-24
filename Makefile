@@ -23,6 +23,11 @@ install: install-bashlibs install-zsh install-bash $(bindir) $(project) ## Insta
 	cp $(project) $(bindir)/$(project)
 	chmod +x $(bindir)/$(project)
 
+.PHONY: install-bash
+install-bash: ## Install Bash completion function.
+	@mkdir -p $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/
+	cp ./scripts/bash/cookie $(DESTDIR)/$(PREFIX)/share/bash-completion/completions/cookie
+
 .PHONY: install-bashlibs
 install-bashlibs:  ## Install the bashlibs library.
 ifeq (,$(wildcard /usr/bin/gutils.sh))
