@@ -1,0 +1,42 @@
+# Bash completion for `cookie`
+# Install location target: /usr/share/bash-completion/completions/cookie
+
+_cookie_complete() {
+  local cur prev
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  # Options based on cookie's help/usage
+  local opts="-c --config -d --debug -D --bin-subdir -e --edit -f --force -h --help -l --list -m --mode -r --remove -q --quiet -v --verbose -x"
+
+  # If completing an option
+  if [[ "$cur" == -* ]]; then
+    COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+    return 0
+  fi
+
+  # If the previous arg expects a template name, complete from COOKIE_DIR
+  if [[ "$prev" == "-e" || "$prev" == "--edit" || "$prev" == "-r" || "$prev" == "--remove" || "$prev" == "-l" || "$prev" == "--list" ]]; then
+    local cookie_dir="${COOKIE_DIR:-$HOME/.cookiecutters}"
+    if [[ -d "$cookie_dir" ]]; then
+      COMPREPLY=( $(compgen -W "$(command ls -1 "$cookie_dir" 2>/dev/null)" -- "$cur") )
+    fi
+    return 0
+  fi
+
+  # If completing MODE, suggest common values
+  if [[ "$prev" == "-m" || "$prev" == "--mode" ]]; then
+    COMPREPLY=( $(compgen -W "+x 755 744 700 664 644 600" -- "$cur") )
+    return 0
+  fi
+
+  # Default: complete the first positional TEMPLATE from COOKIE_DIR
+  local cookie_dir="${COOKIE_DIR:-$HOME/.cookiecutters}"
+  if [[ -d "$cookie_dir" ]]; then
+    COMPREPLY=( $(compgen -W "$(command ls -1 "$cookie_dir" 2>/dev/null)" -- "$cur") )
+  fi
+  return 0
+}
+
+complete -F _cookie_complete cookie
